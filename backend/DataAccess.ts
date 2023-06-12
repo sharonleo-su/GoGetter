@@ -4,10 +4,11 @@ class DataAccess {
     static mongooseInstance: any;
     static mongooseConnection: Mongoose.Connection;
     //static DB_CONNECTION_STRING:string = 'mongodb://dbAdmin:test@localhost:27017/gogetter?authSource=admin';
-    static DB_CONNECTION_STRING:string = 'mongodb+srv://Cluster0:Cluster0GoGetter@cluster0.hfpeten.mongodb.net/gogetter';
+    static DB_CONNECTION_STRING:string = process.env.MONGODB_CONNECTION_STRING;
     
     constructor () {
         DataAccess.connect();
+        
     }
     
     static connect (): Mongoose.Connection {
@@ -18,7 +19,8 @@ class DataAccess {
             console.log("Connected to mongodb.");
         });
         
-        this.mongooseInstance = Mongoose.connect(this.DB_CONNECTION_STRING);
+        this.mongooseInstance = Mongoose.connect(this.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
+        
         return this.mongooseInstance;
     }
     

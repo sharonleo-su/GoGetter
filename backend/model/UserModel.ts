@@ -19,11 +19,11 @@ class UserModel {
         this.schema = new Mongoose.Schema(
             {
                 userId: { type: String, required: true },
-                oauthId: {type: String, required: true},
+                oauthId: { type: String, required: true },
                 name: { type: String, required: true },
                 email: { type: String, required: true },
-                goalCreated: {type: Number},
-                picture: {type: String},
+                goalCreated: { type: Number },
+                picture: { type: String },
             }, { collection: 'users', versionKey: false }
         );
     }
@@ -37,40 +37,20 @@ class UserModel {
     public getUserIdByOauthId = async function (oauthId: string): Promise<string | null> {
         const user = await this.model.findOne({ oauthId });
         return user ? user.userId : null;
-      };
+    };
 
-    public createNewUser(response: any, newUserInfo: Object, emailFilter: Object): void {
-        this.checkUserExists(emailFilter, (exists) => {
-            if (exists) {
-                let err = 'Error: email exists already';
-                console.log(err);
-                response.status(409).json({ error: err });
-            } else {
-                this.model.create([newUserInfo], (err: any) => {
-                    if (err) {
-                        console.log(err);
-                        response.status(500).json({ error: err.message });
-                    }
-                    else {
-                        console.log('New user added successfully')
-                        response.send('New user added successfully');
-                    }
-                });
-            }
-        });
-    }
-
-    public checkUserExists(filter: Object, callback: (exists: boolean) => void): void {
-        var query = this.model.findOne(filter);
-        query.exec((err: any, itemArray: any) => {
+    public async createNewUser(newUserInfo: Object): Promise<void> {
+        return new Promise((resolve, reject) => {
+          this.model.create([newUserInfo], (err: any) => {
             if (err) {
-                console.log('Error:', err);
+              console.log(err);
+              reject(new Error(err.message));
             }
-            else {
-                callback(itemArray !== null);
-            }
+            console.log('New user added successfully')
+            resolve();
+          });
         });
-    }
+      }
 
     public retrieveAllUsers(response: any): any {
         var query = this.model.find({});
@@ -97,7 +77,7 @@ class UserModel {
             }
         });
     }
-      
+
     public updateUserDetails(response: any, userUpdate: Object, filter: Object) {
         this.model.findOneAndUpdate(filter, userUpdate, { upsert: true, new: true }, (err: any, result: any) => {
             if (err) {

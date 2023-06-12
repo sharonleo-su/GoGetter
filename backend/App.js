@@ -38,7 +38,7 @@ class App {
     middleware() {
         this.expressApp.use(bodyParser.json());
         this.expressApp.use(bodyParser.urlencoded({ extended: false }));
-        this.expressApp.use(session({ secret: 'gogettersecret' }));
+        this.expressApp.use(session({ secret: 'gogettersecret', resave: false, saveUninitialized: false }));
         this.expressApp.use(cookieParser());
         this.expressApp.use(passport.initialize());
         this.expressApp.use(passport.session());
@@ -86,7 +86,7 @@ class App {
             }
         }));
         //--------------------------------------------GOAL CRUD--------------------------------------
-        // NOTE: use https://gogetterbebetter.azurewebsites.net for testing on Azure
+        // NOTE: use https://gogetterapp.azurewebsites.net for testing on Azure
         // Create a goal
         // POST: http://localhost:8080/app/goal
         router.post('/app/goal', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -133,7 +133,6 @@ class App {
                 try {
                     const userId = yield this.Users.getUserIdByOauthId(req.user.id);
                     if (userId) {
-                        // Store the userId in the session
                         session.userId = userId;
                         this.Goals.retrieveAllGoals(res, { userId: session.userId });
                     }
