@@ -1,6 +1,6 @@
 ## GoGetter - A goal setting and tracking application
 
-Deployed on Azure: gogetterapp.azurewebsites.net
+Deployed on Azure: [gogetterapp.azurewebsites.net](gogetterapp.azurewebsites.net)
 
 Folder content:
 * backend - contains all code related to mongoose and API to fetch data from mongodb
