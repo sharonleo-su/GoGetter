@@ -62,6 +62,11 @@ jobs:
         - name: Check Azure CLI version
           run: az --version
 
+        - name: Log in with Azure
+          uses: azure/login@v1
+          with:
+              creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
         - name: Download artifact from build job
           uses: actions/download-artifact@v2
           with:
@@ -73,5 +78,5 @@ jobs:
           with:
             app-name: 'goGetterApp'
             slot-name: 'Production'
-            publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+            publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
             package: release.zip
