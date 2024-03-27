@@ -63,12 +63,12 @@ jobs:
           run: az --version
 
         - name: Log in with Azure
-          uses: azure/login@v1
+          uses: azure/login@v1.1
           with:
               creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
         - name: Download artifact from build job
-          uses: actions/download-artifact@v2
+          uses: actions/download-artifact@v1.1
           with:
             name: node-app
             
