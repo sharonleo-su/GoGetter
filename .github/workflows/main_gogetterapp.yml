@@ -78,5 +78,5 @@ jobs:
           with:
             app-name: 'goGetterApp'
             slot-name: 'Production'
-            publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2C89E24A84EF471D9669C85CCA28D457 }}
+            publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
             package: release.zip
